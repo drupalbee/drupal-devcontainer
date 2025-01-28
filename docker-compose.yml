@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  web:
+    hostname: "web"
+    container_name: "web"
+    build:
+      context: ".devcontainer"
+      dockerfile: "web.Dockerfile"
+    ports:
+      - "443:443"
+    volumes:
+      - "./.devcontainer/:/opt/drupal/.devcontainer/"
+      - "./.git/:/opt/drupal/.git/"
+      - "./.gitignore:/opt/drupal/.gitignore"
+      - "./.vscode/:/opt/drupal/.vscode/"
+      - "./patches/:/opt/drupal/patches/"
+      - "./private/:/opt/drupal/private/"
+      - "./sync/:/opt/drupal/sync/"
+      - "./web/sites/default/files/:/opt/drupal/web/sites/default/files/"
+      - "./composer.json:/opt/drupal/composer.json"
+      - "./composer.lock:/opt/drupal/composer.lock"
+      - "./docker-compose.yml:/opt/drupal/docker-compose.yml"
+      - "./README.md:/opt/drupal/README.md"
+      - "./.ssh/:/user/www-data/.ssh/"
+      - "./.gitconfig:/user/www-data/.gitconfig"
+    user: "www-data:www-data"
+    depends_on:
+      - db
+    networks:
+      - "drupal"
+  db:
+    hostname: "db"
+    ports:
+      - "3306:3306"
+    container_name: "db"
+    build:
+      context: ".devcontainer"
+      dockerfile: "db.Dockerfile"
+    networks:
+      - "drupal"
+
+networks:
+  drupal:

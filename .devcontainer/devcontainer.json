@@ -1,0 +1,79 @@
+{
+  "name": "local.example.com",
+  "dockerComposeFile": "../docker-compose.yml",
+  "remoteUser": "www-data",
+  "service": "web",
+  "runServices": ["web", "db"],
+  "workspaceFolder": "/opt/drupal",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "gruntfuggly.todo-tree",
+        "eamodio.gitlens",
+        "gitkraken.gitkraken-authentication",
+        "cweijan.vscode-mysql-client2",
+        "esbenp.prettier-vscode",
+        "Stanislav.vscode-drupal",
+        "whatwedo.twig",
+        "vscode-icons-team.vscode-icons",
+        "DEVSENSE.phptools-vscode",
+        "bmuskalla.vscode-tldr",
+        "ms-playwright.playwright"
+      ],
+      "settings": {
+        "files": {
+          "associations": {
+            "*.sh": "shellscript"
+          },
+          "trimFinalNewlines": true,
+          "trimTrailingWhitespace": true
+        },
+        "editor": {
+          "formatOnPaste": true,
+          "formatOnSave": true
+        },
+        "php": {
+          "version": 8.3,
+          "executablePath": "/usr/local/bin/php",
+          "suggest.basic": true,
+          "problems.excludeGitIgnore": true,
+          "format.codeStyle": "Drupal"
+        },
+        "[php]": {
+          "editor.defaultFormatter": "stanislav.vscode-drupal"
+        },
+        "terminal.external.linuxExec": "/usr/bin/bash",
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "workbench.editor.highlightModifiedTabs": true,
+        "workbench.colorCustomizations": {
+          "activityBar.activeBackground": "#000000",
+          "activityBar.activeBorder": "#ffee00",
+          "activityBar.background": "#000000",
+          "activityBar.foreground": "#ffffff",
+          "activityBar.inactiveForeground": "#ffffff",
+          "activityBarBadge.background": "#ffee00",
+          "activityBarBadge.foreground": "#2e00fc",
+          "debugIcon.breakpointForeground": "#fa0011",
+          "editorGroup.border": "#ffee00",
+          "panel.border": "#ffee00",
+          "sideBar.border": "#ffee00",
+          "titleBar.activeBackground": "#000000",
+          "titleBar.activeForeground": "#ffffff",
+          "titleBar.inactiveBackground": "#000000",
+          "titleBar.inactiveForeground": "#ffffff",
+          "sash.hoverBorder": "#fa0011",
+          "statusBar.background": "#000000",
+          "statusBar.foreground": "#ffffff",
+          "statusBar.debuggingBackground": "#2e00fc",
+          "statusBar.debuggingForeground": "#ffffff",
+          "statusBarItem.hoverBackground": "#fa0011",
+          "statusBarItem.remoteBackground": "#2e00fc",
+          "statusBarItem.remoteForeground": "#ffffff"
+        }
+      }
+    }
+  },
+  "postCreateCommand": "sudo chown -R www-data:www-data /postCreateCommand.sh && sudo chown -R www-data /user/www-data && sudo chmod -R 700 /user/www-data/.ssh && /postCreateCommand.sh",
+  "postAttachCommand": "~/.bashrc",
+  "shutdownAction": "stopCompose"
+}

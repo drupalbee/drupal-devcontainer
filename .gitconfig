@@ -1,0 +1,27 @@
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	cim = commit -m
+	ciam = commit -a -m
+[core]
+	excludesfile = /Users/ezi/.gitignore
+	editor = micro
+	autocrlf = input
+[user]
+	name = Eugene Zimin
+	email = eugene@ziminpro.com
+[pull]
+	rebase = false
+[commit]
+	gpgsign = false
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = main
