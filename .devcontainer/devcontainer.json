@@ -73,7 +73,7 @@
       }
     }
   },
-  "postCreateCommand": "sudo chown -R www-data:www-data /postCreateCommand.sh && sudo chown -R www-data /user/www-data && sudo chmod -R 700 /user/www-data/.ssh && /postCreateCommand.sh",
+  "postCreateCommand": "sudo chown -R www-data:www-data /opt/drupal && sudo chmod +x /postCreateCommand.sh && /postCreateCommand.sh",
   "postAttachCommand": "~/.bashrc",
   "shutdownAction": "stopCompose"
 }
