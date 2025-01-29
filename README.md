@@ -9,7 +9,7 @@ This project provides a generic devcontainer setup designed for development of a
 ```bash
 Host azure
   HostName <IP_ADDRESS>
-  User <uswername>
+  User <username>
   IdentityFile ~/.ssh/DrupalRemote_key.pem
   LocalForward 9003 localhost:9003
   LocalForward 8443 localhost:443
@@ -34,7 +34,7 @@ Username: admin
 Password: ZNB\*ufm1tyz4rwc@yzk
 ```
 
-If you would like to change these before building the images, you can do so in .devcontainer/scripts/postCreateCommand.sh.
+If you would like to change these before building the images, you can do so in `.devcontainer/scripts/postCreateCommand.sh`.
 
 ## Containers
 
