@@ -4,9 +4,20 @@ This project provides a generic devcontainer setup designed for development of a
 
 ## Usage
 
-1. Clone this project to your computer.
-1. Open the folder in Visual Studio Code, with [the Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) enabled.
-1. When prompted to open in container, accept. If you miss the prompt, you can also open the command prompt and choose "Remote-Containers: Rebuild and Reopen in Container."
+1. Connect to remote VM with Docker installed over SSH. Use the following configuration in your SSH config file:
+
+```bash
+Host azure
+  HostName <IP_ADDRESS>
+  User <uswername>
+  IdentityFile ~/.ssh/DrupalRemote_key.pem
+  LocalForward 9003 localhost:9003
+  LocalForward 8443 localhost:443
+```
+
+2. Clone this project to your remote computer.
+3. Open the folder in Visual Studio Code, with [the Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) enabled.
+4. When prompted to open in container, accept. If you miss the prompt, you can also open the command prompt and choose "Remote-Containers: Rebuild and Reopen in Container."
 
 This will build the necessary containers and reopen VS Code within the Apache container ("web").
 
@@ -41,4 +52,38 @@ The setup includes:
 - Grep colour highlighting for easier reading of results.
 
 ## Data Storage
+
+Website data is stored in the "web" container, and the database data is stored in the "db" container. The database data is stored in a bind volume, as well as Drupal data, so both will persist between container rebuilds.
+
+## Folder structure
+
+Here is the folder structure for website data:
+
+```bash
+.
+├── README.md
+├── composer.json
+├── composer.lock
+├── docker-compose.yml
+├── patches
+├── private
+├── sync
+│   └── config
+└── web
+    ├── INSTALL.txt
+    ├── README.md
+    ├── example.gitignore
+    ├── index.php
+    ├── modules
+    ├── profiles
+    ├── robots.txt
+    ├── sites
+    ├── themes
+    ├── update.php
+    └── web.config
+```
+
+`web` folder exist in the root of the project and contains the Drupal website files. The `private` and `sync` folders are used for Drupal configuration and private files, respectively.
+
+In case you need to modify the code internally and then commit it, it is possible to do so by creating a new branch and pushing it to the repository like you always do in regular linux systems.
 
