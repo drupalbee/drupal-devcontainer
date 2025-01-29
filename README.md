@@ -10,17 +10,18 @@ This project provides a generic devcontainer setup designed for development of a
 
 This will build the necessary containers and reopen VS Code within the Apache container ("web").
 
-After building, the site can be browsed at https://localhost, or https://local.example.com if you set up your machine's hosts file with a record like:
+After building, the site can be browsed at https://localhost:8443, or https://drupal.dev:8443 if you set up your machine's hosts file with a record like:
 
 ```
-127.0.0.1 local.example.com
+127.0.0.1 drupal.dev
 ```
 
 The admin account is:
 
+```
 Username: admin
-
 Password: ZNB\*ufm1tyz4rwc@yzk
+```
 
 If you would like to change these before building the images, you can do so in .devcontainer/scripts/postCreateCommand.sh.
 
@@ -29,21 +30,15 @@ If you would like to change these before building the images, you can do so in .
 The first container has PHP and Apache and is built on an official Drupal image. The second is a database container, using the official MariaDB image.
 The setup includes:
 
-- PHP 8.2 and PHP extensions recommended for Drupal 10: APCU and UploadProgress
+- PHP 8.3 and PHP extensions recommended for Drupal 10: APCU and UploadProgress
 - Latest version of composer.
 - XDebug for PHP testing.
 - User "www-data" with sudo permissions.
-- Self-signed certificate for HTTPS browsing.
 - Useful Drupal modules module_filter, admin_toolbar, and environment_indicator with configuration.
 - Useful VS Code extensions and settings including Drupal formatting standards.
 - SSH folder and .gitconfig as volumes, so if your SSH keys are in the standard user profile's .ssh folder and you clone with SSH, there won't be any extra steps necessary to connect to the repository with your configuration.
 - A dark mode colour palette.
 - Grep colour highlighting for easier reading of results.
 
-## Oracle Linux Version
+## Data Storage
 
-An older version that required Oracle Linux has been split off into the oracle-linux branch. Work will continue forward with the main branch, but that is maintained for anybody looking for an Oracle Linux version.
-
-## TODO
-
-- [ ] Create alternate version where images are built in GitHub Actions instead of locally. TBD if to overtake this main branch, different branch, or different repo
