@@ -4,24 +4,70 @@ This project provides a generic devcontainer setup designed for development of a
 
 ## Usage
 
-1. Connect to remote VM with Docker installed over SSH. Use the following configuration in your SSH config file:
+1. Connect to remote VM over SSH. Use the following configuration in your SSH config file on your local machine. REMEMBER - these actions are should be done on your local machine, not on the remote VM!
+
+```bash
+# create the config file if it doesn't exist
+touch ~/.ssh/config
+
+# open the config file
+nano ~/.ssh/config
+```
+add the following configuration to the file:
 
 ```bash
 Host azure
   HostName <IP_ADDRESS>
   User <username>
-  IdentityFile ~/.ssh/DrupalRemote_key.pem
+  IdentityFile <path_to_your_pem_file>
   LocalForward 9003 localhost:9003
   LocalForward 8443 localhost:443
 ```
+2. Test the connection by running the following command:
 
-2. Clone this project to your remote computer.
-3. Open the folder in Visual Studio Code, with [the Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) enabled.
-4. When prompted to open in container, accept. If you miss the prompt, you can also open the command prompt and choose "Remote-Containers: Rebuild and Reopen in Container."
+```bash
+ssh azure
+```
+After this step you should be successfully connected to the remote VM. If you are not, please check the configuration and try again.
 
-This will build the necessary containers and reopen VS Code within the Apache container ("web").
+3. Clone the repository ON THE REMOTE VM:
 
-After building, the site can be browsed at https://localhost:8443, or https://drupal.dev:8443 if you set up your machine's hosts file with a record like:
+```bash
+cd $HOME
+git clone https://github.com/eugenezimin/drupal-devcontainer.git
+```
+
+Install Docker and other dependencies on the REMOTE VM:
+
+```bash
+# Install Docker prerequisites
+sudo apt update
+sudo apt install ca-certificates curl
+# Set up Docker repository
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+# Add Docker repository
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# Install Docker packages
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin default-jre
+# Configure Docker permissions
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+````
+
+Now you may disconnect from the remote VM and continue working on your local machine.
+
+4. ON YOUR LOCAL MACHINE, open the Visual Studio Code and connect to the remote VM using the SSH configuration you created earlier. Click `Ctrl+Shift+P` and type `Remote-SSH: Connect to Host...` and select the `azure` host.
+5. Whent you are connected to the remote VM, open a project folder where you cloned the project.
+6. If you already installed [the Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) you need to wait a second for popup window and then click on `Reopen in Container. This will build the necessary containers and reopen VS Code within the Apache container ("web").
+
+After all these steps, the site can be browsed at https://localhost:8443, or https://drupal.dev:8443 if you set up your machine's hosts file with a record like:
 
 ```
 127.0.0.1 drupal.dev
@@ -84,6 +130,21 @@ Here is the folder structure for website data:
 ```
 
 `web` folder exist in the root of the project and contains the Drupal website files. The `private` and `sync` folders are used for Drupal configuration and private files, respectively.
+
+## Development
+
+Since you were cloning a template repository, I bet you don't want to commit your changes to this repository, so you need to delete git data from the parent folder:
+
+```bash
+cd $HOME/drupal-devcontainer
+rm -rf .git
+```
+
+and then reinitialize the repository:
+
+```bash
+git init
+```
 
 In case you need to modify the code internally and then commit it, it is possible to do so by creating a new branch and pushing it to the repository like you always do in regular linux systems.
 
